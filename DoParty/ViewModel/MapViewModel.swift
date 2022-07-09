@@ -31,6 +31,10 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     // Searched places
     @Published var places: [Place] = []
     
+    @Published var annotationArray: [MKPointAnnotation] = []
+    
+    
+    
     
     // Updating map type
     func updateMapType() {
@@ -44,7 +48,6 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     // Focus location
-    
     func focusLocation() {
         
         guard let _ = region else { return }
@@ -66,9 +69,42 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             guard let result = response else { return }
             self.places = result.mapItems.compactMap({ (item) -> Place? in
                 return Place(place: item.placemark)
-                
-                
             })
+        }
+    }
+    
+    // Search from text field
+    func setUpPlacemark(/* adressPlace: String */) { /* [self] in */
+        
+        // скорее всего что то с locationManager или с ссылками в setUpPlacemark
+        
+        let adressPlace = searchText
+        
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(adressPlace) { (placemarks, error) in
+            if let error = error {
+                print(error)
+                //self.vmError.alertError(title: "Error", message: "Server is not response")
+             return
+            }
+            
+            guard let placemarks = placemarks else { return }
+            let placemark = placemarks.first
+            
+            let annotation = MKPointAnnotation()
+            annotation.title = "\(adressPlace)"
+            
+            guard let placemarkLocation = placemark?.location else { return }
+            annotation.coordinate = placemarkLocation.coordinate
+            
+            // Add annotation
+            self.annotationArray.append(annotation)
+            self.mapView.showAnnotations(self.annotationArray, animated: true)
+            
+            //guard let coordinate = annotationArray
+//            let coordinateRegion = MKCoordinateRegion(center: coordinate, latitudinalMeters: 5000, longitudinalMeters: 5000)
+//            mapView.setRegion(coordinateRegion, animated: true)
+//            mapView.setVisibleMapRect(mapView.visibleMapRect, animated: true)
         }
     }
     
@@ -83,12 +119,16 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         
         let pointAnnotation = MKPointAnnotation()
         pointAnnotation.coordinate = coordinate
-        
         pointAnnotation.title = place.place.name ?? "Error name"
         
         // Removing all old once
         mapView.removeAnnotations(mapView.annotations)
         mapView.addAnnotation(pointAnnotation)
+        
+        // Moving map to that location
+        let coordinateRegion = MKCoordinateRegion(center: coordinate, latitudinalMeters: 5000, longitudinalMeters: 5000)
+        mapView.setRegion(coordinateRegion, animated: true)
+        mapView.setVisibleMapRect(mapView.visibleMapRect, animated: true)
         
     }
     

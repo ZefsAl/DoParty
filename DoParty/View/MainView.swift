@@ -20,24 +20,51 @@ struct MainView: View {
             MapView()
                 .environmentObject(mapData)
                 .ignoresSafeArea()
+                .colorScheme(.light)
             
             VStack {
-                VStack(spacing: 8){
+                VStack(spacing: 8) {
                     HStack {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundColor(.black)
-                        TextField("Search", text: $mapData.searchText)
-                            .tint(Color.black)
-                            .colorScheme(.light)
+                        HStack {
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(.black)
+                            TextField("Search", text: $mapData.searchText)
+                                .tint(Color.black)
+                                .colorScheme(.light)
+                            
+                            if !mapData.searchText.isEmpty {
+                                Button {
+                                    mapData.searchText = ""
+                                    
+                                } label: {
+                                    Image(systemName: "xmark")
+                                        .foregroundColor(.black)
+                                }
+                            }
+
+                        }
+                        
+                        .padding()
+                        .background(.white)
+                        .cornerRadius(12)
+                        
+                        Button {
+                            // Action
+                            // Скорее всего неправильно
+                            //mapData.setUpPlacemark(adressPlace: mapData.searchText)
+                            mapData.setUpPlacemark()
+                        } label: {
+                            Text("Search")
+                                .fontWeight(.medium)
+                                .padding(.vertical, 8)
+                        }
+                        .buttonStyle(.borderedProminent)
                     }
-                    .padding()
-                    .background(.white)
                     
-                    .cornerRadius(12)
                     
                     // Displayng results
                     if !mapData.places.isEmpty && mapData.searchText != "" {
-                        ScrollView(showsIndicators: true) {
+                        ScrollView(.vertical, showsIndicators: true) {
                             VStack{
                                 ForEach(mapData.places) { (place) in
                                     Text(place.place.name ?? "")
@@ -93,6 +120,8 @@ struct MainView: View {
             // Setting Delegate
             locationManager.delegate = mapData
             locationManager.requestWhenInUseAuthorization()
+
+            locationManager.requestLocation()
         }
         .alert(Text("Permission denied"), isPresented: $mapData.permissionDenied) {
             Button("Go to settings") {

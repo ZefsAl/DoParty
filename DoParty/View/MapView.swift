@@ -30,6 +30,20 @@ struct MapView: UIViewRepresentable {
     
     class Coordinator: NSObject, MKMapViewDelegate {
         
+        func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+            // Custom pins
+            
+            // Excluding user Blue circle
+            if annotation.isKind(of: MKUserLocation.self) { return nil} else {
+                let pinAnnotation = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "PIN_VIEW")
+                pinAnnotation.tintColor = .red
+                pinAnnotation.animatesWhenAdded = true
+                pinAnnotation.canShowCallout = true
+                
+                return pinAnnotation
+            }
+        }
+        
     }
     
 }
