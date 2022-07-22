@@ -10,7 +10,6 @@ import MapKit
 import CoreLocation
 
 // All Map Data goes here
-// Весь этот класс и функции в нем работают таким образом. Описанные функции относящеесе к Manager выполняется
 
 class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
@@ -33,6 +32,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     @Published var annotationArray: [MKPointAnnotation] = []
     
+    @Published var showResults = false
     
     
     
@@ -74,9 +74,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     // Search from text field
-    func setUpPlacemark(/* adressPlace: String */) { /* [self] in */
-        
-        // скорее всего что то с locationManager или с ссылками в setUpPlacemark
+    func setUpPlacemark() {
         
         let adressPlace = searchText
         
@@ -84,7 +82,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         geocoder.geocodeAddressString(adressPlace) { (placemarks, error) in
             if let error = error {
                 print(error)
-                //self.vmError.alertError(title: "Error", message: "Server is not response")
+                // Need alert error
              return
             }
             
@@ -101,10 +99,12 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             self.annotationArray.append(annotation)
             self.mapView.showAnnotations(self.annotationArray, animated: true)
             
-            //guard let coordinate = annotationArray
-//            let coordinateRegion = MKCoordinateRegion(center: coordinate, latitudinalMeters: 5000, longitudinalMeters: 5000)
-//            mapView.setRegion(coordinateRegion, animated: true)
-//            mapView.setVisibleMapRect(mapView.visibleMapRect, animated: true)
+            // Moving map to that location
+            guard let coordinate = placemark?.location?.coordinate else { return }
+            let coordinateRegion = MKCoordinateRegion(center: coordinate, latitudinalMeters: 5000, longitudinalMeters: 5000)
+            self.mapView.setRegion(coordinateRegion, animated: true)
+            self.mapView.setVisibleMapRect(self.mapView.visibleMapRect, animated: true)
+            
         }
     }
     
@@ -163,6 +163,10 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         self.mapView.setVisibleMapRect(self.mapView.visibleMapRect, animated: true)
     }
     
-    
-    
+}
+
+extension UIApplication {
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
 }
