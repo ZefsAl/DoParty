@@ -8,6 +8,7 @@
 import SwiftUI
 import MapKit
 import CoreLocation
+import BottomSheetSwiftUI
 
 // All Map Data goes here
 
@@ -33,8 +34,12 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var annotationArray: [MKPointAnnotation] = []
     
     @Published var showResults = false
+    // Bottom Sheet Position
+    @Published var bottomSheetPosition: Position = .bottom
     
-    
+    public enum Position: CGFloat, CaseIterable {
+        case top = 0.8, middle = 0.4, bottom = 0.125, hidden = 0
+    }
     
     // Updating map type
     func updateMapType() {

@@ -7,156 +7,66 @@
 
 import SwiftUI
 import CoreLocation
+import BottomSheetSwiftUI
+
 
 struct MainView: View {
+    
     @StateObject var mapData = MapViewModel()
     // Location manager
-    @State var locationManager = CLLocationManager()
+    @State private var locationManager = CLLocationManager()
     
-    //@Environment(\.dismiss) var dismiss
+    
+    
     
     var body: some View {
         
         ZStack {
-            MapView()
-                .environmentObject(mapData)
-                .ignoresSafeArea()
-                .colorScheme(.light)
-                .gesture(DragGesture().onChanged({ _ in
-                    UIApplication.shared.endEditing()
+            
+            ZStack {
+                LinearGradient(colors: [.orange, .purple], startPoint: .top, endPoint: .bottom)
+                MapView().opacity(0.7)
+                    .environmentObject(mapData)
+                    .ignoresSafeArea()
+                    .bottomSheet(bottomSheetPosition: $mapData.bottomSheetPosition, options: []) {
+                        SheetView(mapData: mapData).header
+                    } mainContent: {
+                        SheetView(mapData: mapData).body
+                        .gesture(DragGesture().onChanged({ _ in
+                            UIApplication.shared.endEditing()
+                        }))
+                    }
                     
-                    withAnimation(.linear, {
-                        mapData.showResults = false
-                    })
-                    
-                }))
+            }
+            .ignoresSafeArea()
+            .preferredColorScheme(.light)
+            .zIndex(0)
+            
+            // [.backgroundBlur(effect: .dark)]
+            
+//            .bottomSheet(bottomSheetPosition: $mapData.bottomSheetPosition, options: []) {
+//                SheetView(mapData: mapData).header
+//            } mainContent: {
+//                SheetView(mapData: mapData).body
+//                .gesture(DragGesture().onChanged({ _ in
+//                    UIApplication.shared.endEditing()
+//                }))
+//            }
+//            .ignoresSafeArea()
+//            .preferredColorScheme(.light)
+            
+            
+            
+            
+            
+            
             
             VStack {
-                VStack(spacing: 8) {
-                    HStack {
-                        // TextField
-                        HStack {
-                            Image(systemName: "magnifyingglass")
-                                .font(.headline)
-                                .foregroundColor(.black)
-                                
-                            TextField("Search", text: $mapData.searchText)
-                                .colorScheme(.light)
-                                .onChange(of: mapData.searchText) { _ in
-                                    mapData.showResults = true
-                                }
-
-
-                            if !mapData.searchText.isEmpty {
-                                Button {
-                                    mapData.searchText = ""
-                                    
-                                } label: {
-                                    Image(systemName: "xmark")
-                                        .foregroundColor(.black)
-                                }
-                            }
-                        }
-                        .padding()
-                        .background(.white)
-                        .cornerRadius(12)
-                        
-                        Button {
-                            mapData.setUpPlacemark()
-                            UIApplication.shared.endEditing()
-                            mapData.showResults = false
-                        } label: {
-                            Text("Search")
-                                .fontWeight(.medium)
-                                .padding(.vertical, 10)
-                        }
-                        .buttonStyle(.borderedProminent)
-                    }
-                    
-                    if mapData.showResults && mapData.searchText != "" {
-                            ZStack {
-                                List {
-                                    ForEach(mapData.places) { (place) in
-                                        VStack(alignment: .leading, spacing: 2) {
-                                            Text(place.place.name ?? "N/F Error")
-                                                .foregroundColor(.black)
-                                                .onTapGesture {
-                                                    mapData.selectPlace(place: place)
-                                                    mapData.showResults = false
-                                                }
-                                            Text("\(place.place.country ?? ""), \(place.place.locality ?? ""), \(place.place.thoroughfare ?? "")")
-                                                .font(.caption)
-                                                .foregroundColor(.gray)
-                                        }
-                                    }
-                                }
-                                .colorScheme(.light)
-                                .listStyle(PlainListStyle())
-                            }
-                            .background(Color.white)
-                            .cornerRadius(12)
-
-                    }
-                    
-                    // Displayng results
-//                    if !mapData.places.isEmpty && mapData.searchText != "" {
-//                        ZStack {
-//                            List {
-//                                ForEach(mapData.places) { (place) in
-//                                    VStack(alignment: .leading, spacing: 2) {
-//                                        Text(place.place.name ?? "N/F Error")
-//                                            .foregroundColor(.black)
-//                                            .onTapGesture {
-//                                                mapData.selectPlace(place: place)
-//                                        }
-//                                        Text("\(place.place.country ?? ""), \(place.place.locality ?? ""), \(place.place.thoroughfare ?? "")")
-//                                            .font(.caption)
-//                                            .foregroundColor(.gray)
-//
-//
-//                                    }
-//
-//                                }
-//                            }
-//                            .colorScheme(.light)
-//                            .listStyle(PlainListStyle())
-//
-//
-//                        }
-//                        .background(Color.white)
-//                        .cornerRadius(12)
-//
-//
-//
-//                    }
-                    
-//                    if !mapData.places.isEmpty && mapData.searchText != "" {
-//                        ScrollView(.vertical, showsIndicators: true) {
-//                            VStack {
-//                                ForEach(mapData.places) { (place) in
-//                                    Text(place.place.name ?? "")
-//                                        .foregroundColor(.black)
-//                                        .frame(maxWidth: .infinity, alignment: .leading)
-//                                        .padding(.horizontal)
-//                                        .padding(.top, 10)
-//                                        .padding(.bottom, 8)
-//                                        .onTapGesture {
-//                                            mapData.selectPlace(place: place)
-//                                        }
-//                                    Divider()
-//                                }
-//                            }
-//                        }
-//                        .background(Color.white)
-//                        .cornerRadius(12)
-//                    }
-                    
-                }
-                .padding()
                 
+                //Spacer()
+                //Color(UIColor.white.withAlphaComponent(0.5))
                 
-                Spacer()
-                
+                    
                 // Start Button - Vstack
                 VStack {
                     
@@ -167,7 +77,7 @@ struct MainView: View {
                     }
                     .font(.title)
                     .padding(14)
-                    .background(.white)
+                    .background(.thinMaterial)
                     .clipShape(Circle())
                     
                     Button {
@@ -177,12 +87,13 @@ struct MainView: View {
                     }
                     .font(.title)
                     .padding(14)
-                    .background(.white)
+                    .background(.thinMaterial)
                     .clipShape(Circle())
                 } // End Button - Vstack
                 .frame(maxWidth: .infinity, alignment: .trailing)
                 .padding()
             }
+            .zIndex(1)
             
         }
         .onAppear {
@@ -198,18 +109,6 @@ struct MainView: View {
             Button("Cancel", role: .cancel) { }
         } message: {
             Text("Please enaple permission in app settings")
-        }
-        .onChange(of: mapData.searchText) { value in
-            // Searching places
-            
-            // Own delay time to avoid Continous search request
-            let delay = 0.3
-            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-                if value == mapData.searchText {
-                    // Search
-                    self.mapData.searchQuery()
-                }
-            }
         }
     }
     

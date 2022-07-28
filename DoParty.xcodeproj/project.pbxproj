@@ -14,9 +14,13 @@
 		84056E37287082840041D16F /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84056E34287082840041D16F /* MapView.swift */; };
 		84056E38287082840041D16F /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84056E35287082840041D16F /* MapViewModel.swift */; };
 		8495D2A42875E8CE00E0B5C0 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8495D2A32875E8CE00E0B5C0 /* Place.swift */; };
+		84FE925B288C2AD60014040F /* SheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FE925A288C2AD60014040F /* SheetView.swift */; };
+		D6360FBADC2CA4CBDB7228B1 /* Pods_DoParty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 543D20C92666488127044499 /* Pods_DoParty.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		543D20C92666488127044499 /* Pods_DoParty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DoParty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		726FF01CCE2B62B300E208E1 /* Pods-DoParty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoParty.debug.xcconfig"; path = "Target Support Files/Pods-DoParty/Pods-DoParty.debug.xcconfig"; sourceTree = "<group>"; };
 		84056E22287081FF0041D16F /* DoParty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoParty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84056E25287081FF0041D16F /* DoPartyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoPartyApp.swift; sourceTree = "<group>"; };
 		84056E29287082010041D16F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -25,6 +29,8 @@
 		84056E34287082840041D16F /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapView.swift; path = DoParty/View/MapView.swift; sourceTree = SOURCE_ROOT; };
 		84056E35287082840041D16F /* MapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapViewModel.swift; path = DoParty/ViewModel/MapViewModel.swift; sourceTree = SOURCE_ROOT; };
 		8495D2A32875E8CE00E0B5C0 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		84FE925A288C2AD60014040F /* SheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetView.swift; sourceTree = "<group>"; };
+		AD7AA795A7244AC1F608DA04 /* Pods-DoParty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoParty.release.xcconfig"; path = "Target Support Files/Pods-DoParty/Pods-DoParty.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,17 +38,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D6360FBADC2CA4CBDB7228B1 /* Pods_DoParty.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3823CF86D05511FF461AAE5D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				543D20C92666488127044499 /* Pods_DoParty.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		84056E19287081FF0041D16F = {
 			isa = PBXGroup;
 			children = (
 				84056E24287081FF0041D16F /* DoParty */,
 				84056E23287081FF0041D16F /* Products */,
+				C291D89F5FAF4F62835CB4C0 /* Pods */,
+				3823CF86D05511FF461AAE5D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -80,6 +97,7 @@
 			children = (
 				84056E33287082840041D16F /* MainView.swift */,
 				84056E34287082840041D16F /* MapView.swift */,
+				84FE925A288C2AD60014040F /* SheetView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -100,6 +118,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		C291D89F5FAF4F62835CB4C0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				726FF01CCE2B62B300E208E1 /* Pods-DoParty.debug.xcconfig */,
+				AD7AA795A7244AC1F608DA04 /* Pods-DoParty.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -107,9 +134,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 84056E30287082010041D16F /* Build configuration list for PBXNativeTarget "DoParty" */;
 			buildPhases = (
+				16B9F889D420724012A962EE /* [CP] Check Pods Manifest.lock */,
 				84056E1E287081FF0041D16F /* Sources */,
 				84056E1F287081FF0041D16F /* Frameworks */,
 				84056E20287081FF0041D16F /* Resources */,
+				CC3F1444F256E3F8337E05C6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -165,6 +194,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		16B9F889D420724012A962EE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DoParty-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CC3F1444F256E3F8337E05C6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DoParty/Pods-DoParty-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DoParty/Pods-DoParty-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DoParty/Pods-DoParty-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		84056E1E287081FF0041D16F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -174,6 +245,7 @@
 				84056E37287082840041D16F /* MapView.swift in Sources */,
 				84056E36287082840041D16F /* MainView.swift in Sources */,
 				84056E26287081FF0041D16F /* DoPartyApp.swift in Sources */,
+				84FE925B288C2AD60014040F /* SheetView.swift in Sources */,
 				8495D2A42875E8CE00E0B5C0 /* Place.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -299,6 +371,7 @@
 		};
 		84056E31287082010041D16F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 726FF01CCE2B62B300E208E1 /* Pods-DoParty.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -329,6 +402,7 @@
 		};
 		84056E32287082010041D16F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AD7AA795A7244AC1F608DA04 /* Pods-DoParty.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
